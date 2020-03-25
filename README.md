@@ -3,13 +3,39 @@ A proof of concept Swift HTTP library using Property Wrappers to build a singe S
 
 ## Examples
 
+Start by building a service object that contains all routes/requests
+```swift
+public struct MyService {
+    @GET<[User]>(
+        path: .only("/users"),
+        version: .path(.v1_1)
+    )
+    public var users: HTTPRequest
+
+    @GET<User>(
+        path: .mapped("/users/{user}", [.expect("user", User.self)]),
+        version: .path(.v1_2)
+    )
+    public var user: HTTPRequest
+
+    @GET<List>(
+        path: .mapped("/users/{user}/lists/{list}", [.expect("user", User.self), .expect("list", List.self)]),
+        version: .path(.v1_2)
+    )
+    public var userList: HTTPRequest
+    
+    public init() {}
+}
+```
+
+Use `MyService` to make requests.
 ```swift
 // Create a couple models instances for testing purposes
 let user = User(id: "1")
 let list = List(id: "2")
 
-// The `Service` object is where all routes/requests are defined
-let service = Service()
+// The `MyService` object is where all routes/requests are defined
+let service = MyService()
 
 // Call the "/users" endpoint and get back a result that contains an array of `User`s
 service.users.execute { result in
