@@ -100,5 +100,6 @@ service.userList.with([user, list]).execute { result in
  * [x] Implement path mapping based on types
  * [x] If query exists, append to path in HTTPRequest
  * [x] Use headers in HTTPRequest
+ * [ ] Create POST, PUT, PATCH, DELETE property wrappers
  * [ ] Use body in HTTPRequest
  * [ ] Add authentication mechanisms
