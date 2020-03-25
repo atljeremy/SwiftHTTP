@@ -45,13 +45,7 @@ public class HTTPRequest<T: Codable>: HTTPRequestProtocol {
                 case .expect(let pathKey, let pathType):
                     for obj in pathObjects {
                         guard type(of: obj) == pathType.self else { continue }
-                        print("Matched type: \(obj) and \(pathType)")
-                        pathParts = pathParts.map { part in
-                            guard part.contains("{") else { return part }
-                            let key = part.replacingOccurrences(of: "{", with: "").replacingOccurrences(of: "}", with: "")
-                            guard key == pathKey else { return part }
-                            return Substring(obj.pathValue)
-                        }
+                        pathParts = pathParts.map { self.mapped(part: $0, pathKey: pathKey, pathObj: obj) }
                     }
                 }
             }
@@ -110,5 +104,14 @@ public class HTTPRequest<T: Codable>: HTTPRequestProtocol {
         }
         
         return true
+    }
+    
+    private func mapped(part: Substring, pathKey: String, pathObj: PathMappable, charSet: CharacterSet = CharacterSet.alphanumerics.inverted) -> Substring {
+        let partChars = CharacterSet(charactersIn: String(part))
+        let replacementCharsFound = !partChars.intersection(charSet).isEmpty
+        guard replacementCharsFound else { return part }
+        let key = part.trimmingCharacters(in: charSet)
+        guard key.lowercased() == pathKey.lowercased() else { return part }
+        return Substring(pathObj.pathValue)
     }
 }
