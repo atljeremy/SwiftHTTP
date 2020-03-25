@@ -71,8 +71,8 @@ service.userList.with([user, list]).execute { result in
 
  ## To-Do
  
- [x] Implement path mapping based on types
- [x] If query exists, append to path in HTTPRequest
- [x] Use headers in HTTPRequest
- [_] Use body in HTTPRequest
- [_] Add authentication mechanisms
+ * [x] Implement path mapping based on types
+ * [x] If query exists, append to path in HTTPRequest
+ * [x] Use headers in HTTPRequest
+ * [ ] Use body in HTTPRequest
+ * [ ] Add authentication mechanisms
