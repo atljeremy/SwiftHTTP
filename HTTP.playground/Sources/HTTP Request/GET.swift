@@ -6,7 +6,6 @@ public struct GET<Expected: Codable> {
     var path: Path
     var headers: [String: String]?
     public var wrappedValue: HTTPRequest<Expected> {
-//        let path = "\(version != nil ? "/" + version!.rawValue + "/" + self.path.sanitizedPath : "")\(self.path)"
         return HTTPRequest<Expected>(method: .get, path: path, versionFormat: versionFormat, headers: headers)
     }
 

@@ -9,7 +9,6 @@ public class HTTPRequest<T: Codable>: HTTPRequestProtocol {
     public var query: [URLQueryItem]?
     public var headers: [String: String]?
     public var body: Codable?
-//    public var idMap: [String: String]?
     public var pathObjects: [PathMappable]?
     public var versionFormat: ApiVersionFormat?
     
@@ -24,7 +23,6 @@ public class HTTPRequest<T: Codable>: HTTPRequestProtocol {
     
     public func execute(completion: (Result<ResponseObject, HTTPRequestError>) -> Void) {
         var path = ""
-//        var path = idMap?.reduce(into: self.path) { $0 = $0.replacingOccurrences(of: $1.key, with: $1.value) } ?? self.path
         var headers: [String: String] = self.headers ?? [:]
         
         // Check to see there's a versionFormat and if so, apply to path or headers accordingly
@@ -78,8 +76,9 @@ public class HTTPRequest<T: Codable>: HTTPRequestProtocol {
             })
         }
         
+        // TODO: Serialize and add body to request
         if let body = body {
-            
+            print("body: \(body)")
         }
         
         print("path: \(path)")
